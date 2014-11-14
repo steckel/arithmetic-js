@@ -1,3 +1,8 @@
-var Lexer = require('./lib/lexer');
+var Lexer = require('./lib/lexer'),
+    shuntingYard = require('./lib/shunting-yard');
 
-module.exports = { Lexer: Lexer };
+
+module.exports = {
+  Lexer: Lexer,
+  shuntingYard: shuntingYard
+};
