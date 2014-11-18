@@ -4,7 +4,7 @@
   "description": "Basic arithmetic without eval()",
   "main": "index.js",
   "scripts": {
-    "test": "node ./test/lexer.js && node ./test/shunting-yard.js"
+    "test": "node ./test/lexer.js && node ./test/shunting-yard.js && node ./test/evaluator.js"
   },
   "author": "Curtis Steckel",
   "license": "MIT"

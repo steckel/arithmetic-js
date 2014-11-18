@@ -1,8 +1,10 @@
-var Lexer = require('./lib/lexer'),
-    shuntingYard = require('./lib/shunting-yard');
+var lexer = require('./lib/lexer'),
+    shuntingYard = require('./lib/shunting-yard'),
+    evaluator = require('./lib/evaluator');
 
 
 module.exports = {
-  Lexer: Lexer,
-  shuntingYard: shuntingYard
+  lexer: lexer,
+  shuntingYard: shuntingYard,
+  evaluator: evaluator
 };
