@@ -1,11 +1,24 @@
 {
   "name": "arithmetic-js",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Basic arithmetic without eval()",
+  "keywords": [
+    "math",
+    "arithmetic",
+    "shunting yard",
+    "reverse polish notation"
+  ],
   "main": "index.js",
   "scripts": {
-    "test": "node ./test/lexer.js && node ./test/shunting-yard.js && node ./test/evaluator.js"
+    "test": "node ./test/lexer.js && node ./test/shunting-yard.js && node ./test/evaluator.js && node ./test/parse.js"
   },
-  "author": "Curtis Steckel",
-  "license": "MIT"
+  "author": "Curtis Steckel <curtis.steckel@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/steckel/arithmetic-js/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/steckel/arithmetic-js.git"
+  }
 }
