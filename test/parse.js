@@ -1,12 +1,16 @@
-var assert = require('assert'),
-    parse = require('../index');
+import { strictEqual } from "assert";
+import parse from "../lib/index";
 
-assert(parse("1 + 1") === 2);
-assert(parse("2 - 1") === 1);
+describe("parse", () => {
+  it("works", () => {
+    strictEqual(parse("1 + 1"), 2);
+    strictEqual(parse("2 - 1"), 1);
 
-assert(parse("3 * 3") === 9);
-assert(parse("9 / 3") === 3);
+    strictEqual(parse("3 * 3"), 9);
+    strictEqual(parse("9 / 3"), 3);
 
-assert(parse("(5 + 6) * 5") === 55);
+    strictEqual(parse("(5 + 6) * 5"), 55);
 
-assert(parse("11 * 50%") === 5.5);
+    strictEqual(parse("11 * 50%"), 5.5);
+  });
+});

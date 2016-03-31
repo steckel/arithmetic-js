@@ -1,59 +1,56 @@
-var assert = require('assert'),
-    lexer = require('../index').lexer;
+import { deepEqual } from "assert";
+import lexer from "../lib/lexer";
 
-var tokens = lexer("1+ 1");
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "1"},
-  {type: "OPERATOR", value: "+", precedence:1},
-  {type: "NUMBER", value: "1"}
-]);
+describe("lexer", () => {
+  it("works", () => {
+    deepEqual(lexer("1 + 1"), [
+     {type: "VALUE", value: 1},
+     {type: "ADDITION"},
+     {type: "VALUE", value: 1}
+    ]);
 
-var tokens = lexer("100-1");
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "100"},
-  {type: "OPERATOR", value: "-", precedence:1},
-  {type: "NUMBER", value: "1"}
-]);
+    deepEqual(lexer("100-1"), [
+     {type: "VALUE", value: 100},
+     {type: "SUBTRACTION"},
+     {type: "VALUE", value: 1}
+    ]);
 
-var tokens = lexer("10 - 1.5");
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "10"},
-  {type: "OPERATOR", value: "-", precedence:1},
-  {type: "NUMBER", value: "1.5"}
-]);
+    deepEqual(lexer("10 - 1.5"), [
+     {type: "VALUE", value: 10},
+     {type: "SUBTRACTION"},
+     {type: "VALUE", value: 1.5}
+    ]);
 
-var tokens = lexer("52 * 2");
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "52"},
-  {type: "OPERATOR", value: "*", precedence:2},
-  {type: "NUMBER", value: "2"}
-]);
+    deepEqual(lexer("52 * 2"), [
+     {type: "VALUE", value: 52},
+     {type: "MULTIPLICATION"},
+     {type: "VALUE", value: 2}
+    ]);
 
-var tokens = lexer("5/2");
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "5"},
-  {type: "OPERATOR", value: "/", precedence:2},
-  {type: "NUMBER", value: "2"}
-]);
+    deepEqual(lexer("5/2"), [
+     {type: "VALUE", value: 5},
+     {type: "DIVISION"},
+     {type: "VALUE", value: 2}
+    ]);
 
-var tokens = lexer("100 * 2%");
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "100"},
-  {type: "OPERATOR", value: "*", precedence:2},
-  {type: "OPERATOR", value: "("},
-  {type: "NUMBER", value: "2"},
-  {type: "OPERATOR", value: "/", precedence:2},
-  {type: "NUMBER", value: "100"},
-  {type: "OPERATOR", value: ")"}
-]);
+    deepEqual(lexer("100 * 2%"), [
+     {type: "VALUE", value: 100},
+     {type: "MULTIPLICATION"},
+     {type: "LEFT_PARENTHESIS"},
+     {type: "VALUE", value: 2},
+     {type: "DIVISION"},
+     {type: "VALUE", value: 100},
+     {type: "RIGHT_PARENTHESIS"}
+    ]);
 
-var tokens = lexer("5 * (5+2)");
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "5"},
-  {type: "OPERATOR", value: "*", precedence:2},
-  {type: "OPERATOR", value: "("},
-  {type: "NUMBER", value: "5"},
-  {type: "OPERATOR", value: "+", precedence:1},
-  {type: "NUMBER", value: "2"},
-  {type: "OPERATOR", value: ")"}
-]);
+    deepEqual(lexer("5 * (5+2)"), [
+     {type: "VALUE", value: 5},
+     {type: "MULTIPLICATION"},
+     {type: "LEFT_PARENTHESIS"},
+     {type: "VALUE", value: 5},
+     {type: "ADDITION"},
+     {type: "VALUE", value: 2},
+     {type: "RIGHT_PARENTHESIS"}
+    ]);
+  });
+});

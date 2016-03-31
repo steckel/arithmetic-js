@@ -1,30 +1,38 @@
-var assert = require('assert'),
-    evaluator = require('../index').evaluator;
+import { strictEqual } from "assert";
+import evaluator from "../lib/evaluator";
 
-// 1 1 + => 2
-assert.equal(evaluator([
-  {type: "NUMBER", value: "1"},
-  {type: "NUMBER", value: "1"},
-  {type: "OPERATOR", value: "+", precedence:1}
-]), 2);
+describe("Evaluator", () => {
+  describe("evaluates a sequence of tokens", () => {
+    it("for addition", () => {
+      strictEqual(evaluator([
+        {type: "VALUE", value: 1},
+        {type: "VALUE", value: 1},
+        {type: "ADDITION"}
+      ]), 2);
+    });
 
-// 2 1 - => 1
-assert.equal(evaluator([
-  {type: "NUMBER", value: "2"},
-  {type: "NUMBER", value: "1"},
-  {type: "OPERATOR", value: "-", precedence:1}
-]), 1);
+    it("for subtraction", () => {
+      strictEqual(evaluator([
+        {type: "VALUE", value: 2},
+        {type: "VALUE", value: 1},
+        {type: "SUBTRACTION"}
+      ]), 1);
+    });
 
-// 5 2 * => 10
-assert.equal(evaluator([
-  {type: "NUMBER", value: "5"},
-  {type: "NUMBER", value: "2"},
-  {type: "OPERATOR", value: "*", precedence:2}
-]), 10);
+    it("for multiplication", () => {
+      strictEqual(evaluator([
+        {type: "VALUE", value: 5},
+        {type: "VALUE", value: 2},
+        {type: "MULTIPLICATION"}
+      ]), 10);
+    });
 
-// 10 2 / => 5
-assert.equal(evaluator([
-  {type: "NUMBER", value: "10"},
-  {type: "NUMBER", value: "2"},
-  {type: "OPERATOR", value: "/", precedence:2}
-]), 5);
+    it("for division", () => {
+      strictEqual(evaluator([
+        {type: "VALUE", value: 10},
+        {type: "VALUE", value: 2},
+        {type: "DIVISION"}
+      ]), 5);
+    });
+  });
+});

@@ -2,23 +2,45 @@
   "name": "arithmetic-js",
   "version": "1.0.0",
   "description": "Basic arithmetic without eval()",
+  "main": "dist/arithmetic.umd.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "prebuild": "eslint lib test",
+    "build": "rollup -c rollup.config.umd.js && rollup -c rollup.config.es6.js",
+    "pretest": "rollup -c rollup.config.test.js",
+    "test": "mocha build/test-bundle.js --reporter list",
+    "prepublish": "npm run build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/steckel/arithmetic-js.git"
+  },
   "keywords": [
     "math",
     "arithmetic",
     "shunting yard",
     "reverse polish notation"
   ],
-  "main": "index.js",
-  "scripts": {
-    "test": "node ./test/lexer.js && node ./test/shunting-yard.js && node ./test/evaluator.js && node ./test/parse.js"
-  },
   "author": "Curtis Steckel <curtis.steckel@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/steckel/arithmetic-js/issues"
   },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/steckel/arithmetic-js.git"
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "homepage": "https://github.com/steckel/arithmetic-js#readme",
+  "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6",
+    "babel-preset-es2015-rollup": "^1.1.1",
+    "eslint": "^1.10.3",
+    "mocha": "^2.3.4",
+    "rollup": "^0.24.1",
+    "rollup-plugin-babel": "^2.3.9",
+    "rollup-plugin-multi-entry": "^1.1.0",
+    "source-map-support": "^0.4.0"
   }
 }

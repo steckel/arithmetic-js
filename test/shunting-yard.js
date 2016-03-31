@@ -1,65 +1,71 @@
-var assert = require('assert'),
-    shuntingYard = require('../index').shuntingYard;
+import { deepEqual } from "assert";
+import shuntingYard from "../lib/shunting-yard";
 
-// 1 + 1 => 1 1 +
-var tokens = shuntingYard([
-  {type: "NUMBER", value: "1"},
-  {type: "OPERATOR", value: "+", precedence:1},
-  {type: "NUMBER", value: "1"}
-]);
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "1"},
-  {type: "NUMBER", value: "1"},
-  {type: "OPERATOR", value: "+", precedence:1}
-]);
+describe("Shunting Yard", () => {
+  it("1 + 1 => 1 1+", () => {
+    var tokens = shuntingYard([
+      {type: "VALUE", value: 1},
+      {type: "ADDITION"},
+      {type: "VALUE", value: 1}
+    ]);
+    deepEqual(tokens, [
+      {type: "VALUE", value: 1},
+      {type: "VALUE", value: 1},
+      {type: "ADDITION"}
+    ]);
+  });
 
-// 3 - 4 + 5 => 3 4 - 5 +
-var tokens = shuntingYard([
-  {type: "NUMBER", value: "3"},
-  {type: "OPERATOR", value: "-", precedence:1},
-  {type: "NUMBER", value: "4"},
-  {type: "OPERATOR", value: "+", precedence:1},
-  {type: "NUMBER", value: "5"}
-]);
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "3"},
-  {type: "NUMBER", value: "4"},
-  {type: "OPERATOR", value: "-", precedence:1},
-  {type: "NUMBER", value: "5"},
-  {type: "OPERATOR", value: "+", precedence:1}
-]);
+  it("3 - 4 + 5 => 3 4 - 5 +", () => {
+    var tokens = shuntingYard([
+      {type: "VALUE", value: 3},
+      {type: "SUBTRACTION"},
+      {type: "VALUE", value: 4},
+      {type: "ADDITION"},
+      {type: "VALUE", value: 5}
+    ]);
+    deepEqual(tokens, [
+      {type: "VALUE", value: 3},
+      {type: "VALUE", value: 4},
+      {type: "SUBTRACTION"},
+      {type: "VALUE", value: 5},
+      {type: "ADDITION"}
+    ]);
+  });
 
-// 3 - 4 * 5 => 3 4 5 * -
-var tokens = shuntingYard([
-  {type: "NUMBER", value: "3"},
-  {type: "OPERATOR", value: "-", precedence:1},
-  {type: "NUMBER", value: "4"},
-  {type: "OPERATOR", value: "*", precedence:2},
-  {type: "NUMBER", value: "5"}
-]);
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "3"},
-  {type: "NUMBER", value: "4"},
-  {type: "NUMBER", value: "5"},
-  {type: "OPERATOR", value: "*", precedence:2},
-  {type: "OPERATOR", value: "-", precedence:1}
-]);
+  it("3 - 4 * 5 => 3 4 5 * -", () => {
+    var tokens = shuntingYard([
+      {type: "VALUE", value: 3},
+      {type: "SUBTRACTION"},
+      {type: "VALUE", value: 4},
+      {type: "MULTIPLICATION"},
+      {type: "VALUE", value: 5}
+    ]);
+    deepEqual(tokens, [
+      {type: "VALUE", value: 3},
+      {type: "VALUE", value: 4},
+      {type: "VALUE", value: 5},
+      {type: "MULTIPLICATION"},
+      {type: "SUBTRACTION"}
+    ]);
+  });
 
-// (3 - 4) * 5 => 3 4 - 5 *
-var tokens = shuntingYard([
-  {type: "OPERATOR", value: "("},
-  {type: "NUMBER", value: "3"},
-  {type: "OPERATOR", value: "-", precedence:1},
-  {type: "NUMBER", value: "4"},
-  {type: "OPERATOR", value: ")"},
-  {type: "OPERATOR", value: "*", precedence:2},
-  {type: "NUMBER", value: "5"}
-]);
+  it("(3 - 4) * 5 => 3 4 - 5 *", () => {
+    var tokens = shuntingYard([
+      {type: "LEFT_PARENTHESIS"},
+      {type: "VALUE", value: 3},
+      {type: "SUBTRACTION"},
+      {type: "VALUE", value: 4},
+      {type: "RIGHT_PARENTHESIS"},
+      {type: "MULTIPLICATION"},
+      {type: "VALUE", value: 5}
+    ]);
 
-assert.deepEqual(tokens, [
-  {type: "NUMBER", value: "3"},
-  {type: "NUMBER", value: "4"},
-  {type: "OPERATOR", value: "-", precedence:1},
-  {type: "NUMBER", value: "5"},
-  {type: "OPERATOR", value: "*", precedence:2}
-]);
+    deepEqual(tokens, [
+      {type: "VALUE", value: 3},
+      {type: "VALUE", value: 4},
+      {type: "SUBTRACTION"},
+      {type: "VALUE", value: 5},
+      {type: "MULTIPLICATION"}
+    ]);
+  });
+});
