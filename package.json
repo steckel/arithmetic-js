@@ -1,6 +1,6 @@
 {
   "name": "arithmetic-js",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Basic arithmetic without eval()",
   "main": "dist/arithmetic.umd.js",
   "directories": {
